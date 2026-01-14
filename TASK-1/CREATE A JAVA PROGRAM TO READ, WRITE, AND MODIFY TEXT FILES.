@@ -1,1 +1,59 @@
+import java.io.*;
 
+public class FileHandlingDemo {
+
+    public static void main(String[] args) {
+
+        String fileName = "data.txt";
+
+        // 1  WRITE To File
+        try {
+            FileWriter fw = new FileWriter(fileName);
+            fw.write("Hello Java\n");
+            fw.write("Welcome to File Handling\n");
+            fw.close();
+            System.out.println("File written successfully.\n");
+        } catch (IOException e) {
+            System.out.println("Error while writing file.");
+        }
+
+        // 2  READ FROM FILE
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            String line;
+            System.out.println("Reading file content:");
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+            br.close();
+            System.out.println();
+        } catch (IOException e) {
+            System.out.println("Error while reading file.");
+        }
+
+        // 3 MODIFY FILE (Replace Java with Advanced Java)
+        try {
+            File inputFile = new File(fileName);
+            File tempFile = new File("temp.txt");
+
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                currentLine = currentLine.replace("Java", "Advanced Java");
+                writer.write(currentLine + "\n");
+            }
+
+            reader.close();
+            writer.close();
+
+            inputFile.delete();
+            tempFile.renameTo(inputFile);
+
+            System.out.println("File modified successfully.");
+        } catch (IOException e) {
+            System.out.println("Error while modifying file.");
+        }
+    }
+}
